@@ -55,15 +55,3 @@ st.download_button(
     data=satellite_data.getDownloadURL({'scale': 30, 'crs': 'EPSG:4326', 'region': ee_geometry}),
     file_name=f"DEM_{districts}.tif"
 )
- # ================= WATERSHED LAYER START =================
-    # 2. Level 6 HydroBASINS dataset load kiya (Pakistan ke liye best size hai)
-
-water_shed = ee.FeatureCollection("WWF/HydroSHEDS/v1/Basins/hybas_6")
-    # 3. Selected district ke geometry ke saath watershed ko clip kiya
-clipped_watershed = water_shed.filterBounds(ee_geometry)
-    # 4. Watershed layer ko map par add kiya
-folium.GeoJson(
-        data=json.loads(clipped_watershed.getInfo()),
-        name='Watershed',
-        style_function=lambda x: {'fillColor': 'blue', 'color': 'blue', 'weight': 2, 'fillOpacity': 0.3}
-    ).add_to(m)
